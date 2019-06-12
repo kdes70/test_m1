@@ -1,15 +1,10 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+<?php include ROOT_PATH.'/Views/Layout/Header.php'?>
 
-    <?php echo " Hi to list"?>
+<img src="Img/my_photo.jpeg" alt="my_photo" id="my_photo">
+<h1>Привет</h1>
+<p>Меня зовут Глеб и я - веб-разработчик.</p>
+Мои контакты:<br>
+8-912-641-3462<br>
+goootlib@gmail.com
 
-
-</body>
-</html>
+<?php include ROOT_PATH.'/Views/Layout/Footer.php'?>

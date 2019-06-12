@@ -21,8 +21,7 @@ class Controller extends BaseController
     {
         if (!isset($this->_view)) {
             $reflection = new ReflectionClass($this);
-            $this->_view = Template::create($this)
-                ->setBasePath(  "../app/Views/");
+            $this->_view = Template::create($this);
         }
 
         return $this->_view;

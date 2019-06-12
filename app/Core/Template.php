@@ -8,7 +8,7 @@ use Exception;
 
 class Template
 {
-    private $_basePath = null;
+    private $_basePath = ROOT_PATH . DIRECTORY_SEPARATOR . "Views" . DIRECTORY_SEPARATOR;
     private $_variables = array();
     private $_template = null;
     private $_controller = null;
@@ -54,19 +54,16 @@ class Template
             throw new Exception('template empty');
         }
 
-        $this->_template = $this->_basePath . $this->_template;
+        $this->_template = $this->_basePath . $this->_template . '.php';
 
-//        if (!file_exists($this->_template)) {
-//            throw new Exception($this->_template . ' is inaccesible');
-//        }
-
-        print_r($this->_template);
+        if (!file_exists($this->_template)) {
+            throw new Exception($this->_template . ' is inaccesible');
+        }
 
         extract($this->_variables);
         ob_start();
-        if (!empty($this->_template)) {
-            require($this->_template);
-        }
+        require($this->_template);
+
         $return = ob_get_contents();
         ob_end_clean();
 
@@ -76,8 +73,6 @@ class Template
     public function display($template)
     {
         $content = $this->fetch($template);
-
-        var_dump($content);
 
         include dirname(dirname(__FILE__)) . '/Views/index.php';
 
