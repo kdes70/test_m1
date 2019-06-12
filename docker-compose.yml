@@ -1,0 +1,57 @@
+version: '3'
+services:
+    nginx:
+        build:
+            context: ./docker/nginx
+            dockerfile: nginx.docker
+        volumes:
+            - ./app:/var/www
+        depends_on:
+            - php-fpm
+        ports:
+            - "8080:80"
+
+    php-fpm:
+        build:
+            context: ./docker/php
+            dockerfile: php-fpm.docker
+        working_dir: /var/www
+        volumes:
+            - ./app:/var/www
+        depends_on:
+            - mysql_db
+        environment:
+            - "DB_PORT=3306"
+            - "DB_HOST=mysql_db"
+    mysql_db:
+        image: mysql:5.7
+        container_name: mysql_db
+        command: --disable-partition-engine-check
+        restart: unless-stopped
+        volumes:
+            - mysqldata:/var/lib/mysql
+        environment:
+            - "MYSQL_ROOT_PASSWORD=test"
+            - "MYSQL_USER=test"
+            - "MYSQL_PASSWORD=test"
+            - "MYSQL_DATABASE=test"
+        ports:
+            - "33061:3306"
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        links:
+            - mysql_db:db
+        ports:
+            - 8090:80
+        environment:
+            - "MYSQL_ROOT_PASSWORD=test"
+            - "PMA_HOST=mysql_db"
+            - "PMA_PORT=3306"
+        depends_on:
+            - mysql_db
+
+volumes:
+    mysqldata:
+        driver: local
